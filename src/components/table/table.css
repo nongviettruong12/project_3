@@ -35,10 +35,13 @@ th input[type="text"] {
 }
 .spacing-button{
     width: 100%;
-    border:1px solid gray;
-    color: #0080ff;
+    /* border:1px solid gray;
+    color: #0080ff; */
 }
 .config-table{
     font-size: 13px;
     font-family: 'roboto' ;
+}
+.ant-form-item{
+    margin-bottom: 0px;
 }
