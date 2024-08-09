@@ -1,0 +1,44 @@
+.table-container {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    color: black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 8px ;
+    border: 1px solid gray;
+    border-collapse: collapse;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+th input[type="text"] {
+    width: 100%;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.status-btn {
+    color:#0080ff ;
+    padding: 4px 8px;
+    border: 1px solid #0080ff ;
+    cursor: pointer;
+}
+.hidden{
+    visibility: hidden;
+}
+.spacing-button{
+    width: 100%;
+    border:1px solid gray;
+    color: #0080ff;
+}
+.config-table{
+    font-size: 13px;
+    font-family: 'roboto' ;
+}
