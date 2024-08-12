@@ -94,10 +94,10 @@ const HeaderNav = ({dataTable, columns, setColumns, onDeleteSelectdRows }) => {
           </button>
         </div>
       </div>
-      <Modal title='tùy chọn cột'
+      <Modal title="tùy chọn cột"
             open={isModalVisible}
             onCancel={() => setIsModalVisible(false)}
-            onOk={() => setIsModalVisible(true)}
+            onOk={() => setIsModalVisible(false)}
       >
       <Checkbox.Group
         options={columns.map(col => col.title)}

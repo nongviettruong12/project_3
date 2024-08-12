@@ -1,17 +1,33 @@
 import React from "react";
 import "./table.css";
-import { DingdingOutlined, SettingOutlined } from "@ant-design/icons";
-import { Tag, Select, Form, Button, Modal, message, Input } from "antd";
+import {  SettingOutlined } from "@ant-design/icons";
+import {
+  Tag,
+  Select,
+  Form,
+  Button,
+  Modal,
+  message,
+  Input,
+  Checkbox,
+  Spin
+} from "antd";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import HeaderNav from "../header/header";
 const Table = () => {
   const [dataTable, setDataTable] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [loading,setLoading] = useState(false)
   const [columns, setColumns] = useState([
-    {title: '',dataIndex: 'checkbox',hidden: false},
-    { title: "STT", dataIndex: "STT", hidden: false },
-    {title: '', dataIndex:'logo', hidden: false},
-    { title: "Trang thái", dataIndex: "status", hidden: false },
+    {title:'STT',dataIndex: "select", hidden: false },
+    { title: "hoho", dataIndex: "STT", hidden: false },
+    {
+      dataIndex: <SettingOutlined />,
+      hidden: false,
+    },
+    { title: "Trạng thái", dataIndex: "status", hidden: false },
     { title: "Họ và tên", dataIndex: "fullName", hidden: false },
     { title: "Ngày sinh", dataIndex: "birthDay", hidden: false },
     { title: "Ngày tập sự", dataIndex: "probationDay", hidden: false },
@@ -30,17 +46,61 @@ const Table = () => {
     { value: "intern", label: "tập sự" },
     { value: "official", label: "chính thức" },
   ];
-
-  const handleDelete = (id) => {
+  const fetchData = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch("http://localhost:3000/user");
+      const data = await response.json();
+      setDataTable(data);
+    } catch (error) {
+      message.error("Không thể tải dữ liệu.");
+    }finally{
+      setLoading(false)
+    }
+  };
+  const reloadData = () => {
+    fetchData()
+    setSelectedRowKeys([])
+    setSelectAll(false)
+  }
+  useEffect(()=>{
+    fetchData()
+  },[])
+  const handleDeleteSelectdRows = (id) => {
     Modal.confirm({
-      title: `Bạn có chắc muốn xoá?`,
+      title: `Bạn có chắc muốn xoá các mục đã chọn?`,
       onOk: () => {
-        setDataTable((prev) => prev.filter((user) => user.id !== id));
-        message.success("xoa thanh cong");
+        setDataTable((prev) =>
+          prev.filter((user) => !selectedRowKeys.includes(user.id))
+        );
+        setSelectedRowKeys([]);
+        setSelectAll(false);
+        message.success("Xóa các mục đã chọn thành công");
       },
     });
   };
 
+  const handleSelectAllChange = (e) => {
+    const checked = e.target.checked;
+    setSelectAll(checked);
+    if (checked) {
+      setSelectedRowKeys(dataTable.map((data) => data.id))
+    } else {
+      setSelectedRowKeys([]);
+    }
+  };
+  const handleRowSelectChange = (id) => {
+    setSelectedRowKeys((prev) => {
+      if (prev.includes.id) {
+        return prev.filter((key) => key !== key.id);
+      } else {
+        return [...prev, id];
+      }
+    });
+    if (selectAll) {
+      setSelectAll(false);
+    }
+  };
   const handleExport = () => {
     if (dataTable.length === 0) {
       message.warning("Không có dữ liệu để xuất");
@@ -53,53 +113,75 @@ const Table = () => {
     XLSX.writeFile(wb, "DanhSachTapSu.xlsx");
     message.success("Xuất file thành công");
   };
-
+  //fetch data render table
   useEffect(() => {
     fetch("http://localhost:3000/user")
       .then((res) => res.json())
       .then((dataTable) => {
         setDataTable(dataTable);
-        console.log("data:", dataTable);
       });
   }, []);
+  //fetch checkbox select all or break
+  useEffect(() => {
+    if (selectedRowKeys.length === dataTable.length) {
+      setSelectAll(true);
+    } else {
+      setSelectAll(false);
+    }
+  }, [selectedRowKeys, dataTable.length]);
   return (
     <>
       <HeaderNav
         dataTable={dataTable}
         columns={columns}
         setColumns={setColumns}
+        onDeleteSelectdRows={handleDeleteSelectdRows}
       />
       <div className="table-container">
-        <table className="config-table">
+        {loading?(
+          <div className="loading-container">
+          <Spin size="large" />
+        </div>
+        ):(
+<table className="config-table">
           <thead>
             <tr className="text-wrap">
+              <th>
+                <Checkbox
+                  onChange={handleSelectAllChange}
+                  checked={selectAll}
+                  indeterminate={
+                    selectedRowKeys.length > 0 &&
+                    selectedRowKeys.length < dataTable.length
+                  }
+                />
+              </th>
               {columns.map((col, index) =>
-                !col.hidden ? <th key={index}>{col.title}</th> : null
+                !col.hidden && <th key={index + 1}>{col.title}</th> 
               )}
-              
             </tr>
             <tr className="filters">
               <th colSpan={3}>
-                <Button className="spacing-button" type="primary">
+                <Button className="spacing-button" onClick={reloadData}>
                   Làm mới
                 </Button>
               </th>
               <th>
                 <Form>
-                <Form.Item name="status">
-                  <Select placeholder="nhập giá trị">
-                    {dataSearch.map((data, index) => {
-                      return <option key={index}>{data.label}</option>;
-                    })}
-                  </Select>
-                </Form.Item>
+                  <Form.Item name="status">
+                    <Select placeholder="nhập giá trị">
+                      {dataSearch.map((data, index) => {
+                        return <option key={index}>{data.label}</option>;
+                      })}
+                    </Select>
+                  </Form.Item>
                 </Form>
               </th>
               <th>
                 <Form>
-                <Form.Item>
-                  <Input placeholder="abc" />
-                </Form.Item>
+                  <Form.Item>
+                    <Input placeholder="abc" />
+                  </Form.Item>
                 </Form>
               </th>
               <th>
@@ -135,9 +217,14 @@ const Table = () => {
           <tbody>
             {dataTable.map((data, index) => (
               <tr key={data.id}>
-                {!columns[0].hidden && <td>{data.checkbox}</td>}
+                <td>
+                  <Checkbox
+                    checked={selectedRowKeys.includes(data.id)}
+                    onChange={() => handleRowSelectChange(data.id)}
+                  />
+                </td>
                 {!columns[1].hidden && <td>{index + 1}</td>}
-                {!columns[2].hidden && <td>{data.logo}</td>}
+                {!columns[2].hidden && <td><SettingOutlined/></td>}
                 {!columns[3].hidden && (
                   <td>
                     <Tag color={data.status === "intern" ? "gold" : "green"}>
@@ -168,6 +255,8 @@ const Table = () => {
             ))}
           </tbody>
         </table>
+        )}
+        
       </div>
     </>
   );

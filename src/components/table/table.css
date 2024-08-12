@@ -36,7 +36,9 @@ th input[type="text"] {
 .spacing-button{
     width: 100%;
     /* border:1px solid gray;
-    color: #0080ff; */
+    */
+    color: #0080ff; 
+    
 }
 .config-table{
     font-size: 13px;
@@ -46,3 +48,9 @@ th input[type="text"] {
     margin-bottom: 0px;
     
 }
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
