@@ -1,69 +1,69 @@
 {
-    "user": [
-      {
-        "fullName": "John Smith 1234",
-        "birthDay": "08/07/2015",
-        "status": "official",
-        "organization": "black",
-        "probationDay": "2015-08-08",
-        "probationYear": "2002",
-        "identifyNumber": "020203004911",
-        "identifyDay": "2015-08-08",
-        "certificate": "1",
-        "TimeOfLearning": "1 năm",
-        "id": "1"
-      },
-      {
-        "id": "2",
-        "status": "Chính thức",
-        "fullName": "John Smith 2",
-        "birthDay": "08/08/2015",
-        "probationDay": "2015-08-08",
-        "probationYear": "2006",
-        "identifyNumber": "020203004911",
-        "identifyDay": "2015-08-08",
-        "organization": "red",
-        "certificate": "1",
-        "TimeOfLearning": "1 năm"
-      },
-      {
-        "fullName": "John Smith 3",
-        "birthDay": "2015-08-08",
-        "status": "official",
-        "organization": "black",
-        "probationDay": "2015-08-08",
-        "probationYear": "2000",
-        "identifyNumber": "19008198224",
-        "identifyDay": "2015-08-08",
-        "certificate": "1",
-        "TimeOfLearning": "1 năm",
-        "id": "3"
-      },
-      {
-        "fullName": "John Smith 45",
-        "birthDay": "2015-08-08",
-        "status": "intern",
-        "organization": "red",
-        "probationDay": "2015-08-08",
-        "probationYear": "2012",
-        "identifyNumber": "020203004911",
-        "identifyDay": "2015-08-08",
-        "certificate": "1",
-        "TimeOfLearning": "1 năm",
-        "id": "4"
-      },
-      {
-        "id": "e30c",
-        "fullName": "abc",
-        "birthDay": "2024-08-06",
-        "status": "intern",
-        "organization": "red",
-        "probationDay": "2024-08-06",
-        "probationYear": "2024",
-        "identifyNumber": "020203004911",
-        "identifyDay": "2024-08-06",
-        "certificate": "1",
-        "TimeOfLearning": "1 nam"
-      }
-    ]
-  }
+  "user": [
+    {
+      "fullName": "John Smith 12345",
+      "birthDay": "08/07/2015",
+      "status": "official",
+      "organization": "black",
+      "probationDay": "2015-08-08",
+      "probationYear": "2002",
+      "identifyNumber": "020203004911",
+      "identifyDay": "2015-08-08",
+      "certificate": "1",
+      "TimeOfLearning": "1 năm",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "status": "Chính thức",
+      "fullName": "John Smith 2",
+      "birthDay": "08/08/2015",
+      "probationDay": "2015-08-08",
+      "probationYear": "2006",
+      "identifyNumber": "020203004911",
+      "identifyDay": "2015-08-08",
+      "organization": "red",
+      "certificate": "1",
+      "TimeOfLearning": "1 năm"
+    },
+    {
+      "fullName": "John Smith 3",
+      "birthDay": "2015-08-08",
+      "status": "official",
+      "organization": "black",
+      "probationDay": "2015-08-08",
+      "probationYear": "2000",
+      "identifyNumber": "19008198224",
+      "identifyDay": "2015-08-08",
+      "certificate": "1",
+      "TimeOfLearning": "1 năm",
+      "id": "3"
+    },
+    {
+      "fullName": "John Smith 45",
+      "birthDay": "2015-08-08",
+      "status": "intern",
+      "organization": "red",
+      "probationDay": "2015-08-08",
+      "probationYear": "2012",
+      "identifyNumber": "020203004911",
+      "identifyDay": "2015-08-08",
+      "certificate": "1",
+      "TimeOfLearning": "1 năm",
+      "id": "4"
+    },
+    {
+      "id": "e30c",
+      "fullName": "abc",
+      "birthDay": "2024-08-06",
+      "status": "intern",
+      "organization": "red",
+      "probationDay": "2024-08-06",
+      "probationYear": "2024",
+      "identifyNumber": "020203004911",
+      "identifyDay": "2024-08-06",
+      "certificate": "1",
+      "TimeOfLearning": "1 nam"
+    }
+  ]
+}

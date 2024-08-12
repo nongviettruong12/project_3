@@ -3,11 +3,16 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-
+import { ConfigProvider } from 'antd'
+import { IntlProvider } from 'react-intl'
+import viVN from "antd/lib/locale/vi_VN";
+import messages from "./locales/vi-VN.json";
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <ConfigProvider locale={viVN}>
+    <IntlProvider locale="vi" messages={messages}>
     <BrowserRouter>
     <App />
     </BrowserRouter>
-  </React.StrictMode>,
+    </IntlProvider>
+  </ConfigProvider>
 )

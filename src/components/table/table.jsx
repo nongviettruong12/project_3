@@ -15,15 +15,21 @@ import {
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import HeaderNav from "../header/header";
+import ModalAdd from '../modal/modal'
 const Table = () => {
   const [dataTable, setDataTable] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [loading,setLoading] = useState(false)
+  const [isEditting, setIsEditting] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
+  const [edittingRecord, setEdittingRecord] = useState(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [selectedRecord, setSelectedRecord] = useState(null)
   const [columns, setColumns] = useState([
-    {title:'STT',dataIndex: "select", hidden: false },
-    { title: "hoho", dataIndex: "STT", hidden: false },
-    {
+    {title:"STT",dataIndex: "select", hidden: false },
+    { title: "Option", dataIndex: "id", hidden: false },
+    { title:'O',
       dataIndex: <SettingOutlined />,
       hidden: false,
     },
@@ -42,6 +48,14 @@ const Table = () => {
     { title: "Chứng chỉ", dataIndex: "certificate", hidden: false },
     { title: "Thời gian học", dataIndex: "TimeOfLearning", hidden: false },
   ]);
+  const handleEdit = (record) => {
+    setIsModalVisible(true); // Hiện modal
+  setEdittingRecord(record);
+  }
+  const closeModal = () => {
+    setIsEditting(false)
+    setEdittingRecord(null)
+  }
   const dataSearch = [
     { value: "intern", label: "tập sự" },
     { value: "official", label: "chính thức" },
@@ -51,7 +65,10 @@ const Table = () => {
     try {
       const response = await fetch("http://localhost:3000/user");
       const data = await response.json();
-      setDataTable(data);
+      setTimeout(() => {
+        setDataTable(data);
+        setLoading(false); 
+      }, 5000);
     } catch (error) {
       message.error("Không thể tải dữ liệu.");
     }finally{
@@ -62,6 +79,16 @@ const Table = () => {
     fetchData()
     setSelectedRowKeys([])
     setSelectAll(false)
+  }
+  const showModal = (record) =>{
+        setSelectedRecord(record)
+        setIsModalVisible(true)
+  }
+  const handleOk = () =>{
+    setIsModalVisible(false)
+  }
+  const handleCancel = () =>{
+    setIsModalVisible(false)
   }
   useEffect(()=>{
     fetchData()
@@ -91,7 +118,7 @@ const Table = () => {
   };
   const handleRowSelectChange = (id) => {
     setSelectedRowKeys((prev) => {
-      if (prev.includes.id) {
+      if (prev.includes(id)) {
         return prev.filter((key) => key !== key.id);
       } else {
         return [...prev, id];
@@ -113,7 +140,7 @@ const Table = () => {
     XLSX.writeFile(wb, "DanhSachTapSu.xlsx");
     message.success("Xuất file thành công");
   };
-  //fetch data render table
+
   useEffect(() => {
     fetch("http://localhost:3000/user")
       .then((res) => res.json())
@@ -121,7 +148,7 @@ const Table = () => {
         setDataTable(dataTable);
       });
   }, []);
-  //fetch checkbox select all or break
+
   useEffect(() => {
     if (selectedRowKeys.length === dataTable.length) {
       setSelectAll(true);
@@ -223,22 +250,25 @@ const Table = () => {
                     onChange={() => handleRowSelectChange(data.id)}
                   />
                 </td>
-                {!columns[1].hidden && <td>{index + 1}</td>}
-                {!columns[2].hidden && <td><SettingOutlined/></td>}
-                {!columns[3].hidden && (
+                {columns[1] && !columns[1].hidden && <td>{index + 1}</td>}
+                {columns[2] && !columns[2].hidden && <td><Button onClick={() =>handleEdit(data)}>
+                  <SettingOutlined/>
+                  </Button>
+                  </td>}
+                {columns[3] && !columns[3].hidden && (
                   <td>
                     <Tag color={data.status === "intern" ? "gold" : "green"}>
                       {data.status === "intern" ? "tập sự" : "chính thức"}
                     </Tag>
                   </td>
                 )}
-                {!columns[4].hidden && <td>{data.fullName}</td>}
-                {!columns[5].hidden && <td>{data.birthDay}</td>}
-                {!columns[6].hidden && <td>{data.probationDay}</td>}
-                {!columns[7].hidden && <td>{data.probationYear}</td>}
-                {!columns[8].hidden && <td>{data.identifyNumber}</td>}
-                {!columns[9].hidden && <td>{data.identifyDay}</td>}
-                {!columns[10].hidden && (
+                {columns[4] && !columns[4].hidden && <td>{data.fullName}</td>}
+                {columns[5] && !columns[5].hidden && <td>{data.birthDay}</td>}
+                {columns[6] && !columns[6].hidden && <td>{data.probationDay}</td>}
+                {columns[7] && !columns[7].hidden && <td>{data.probationYear}</td>}
+                {columns[8] && !columns[8].hidden && <td>{data.identifyNumber}</td>}
+                {columns[9] && !columns[9].hidden && <td>{data.identifyDay}</td>}
+                {columns[10] && !columns[10].hidden && (
                   <td>
                     <Tag
                       color={data.organization === "black" ? "red" : "green"}
@@ -249,8 +279,8 @@ const Table = () => {
                     </Tag>
                   </td>
                 )}
-                {!columns[11].hidden && <td>{data.certificate}</td>}
-                {!columns[12].hidden && <td>{data.TimeOfLearning}</td>}
+                {columns[11] && !columns[11].hidden && <td>{data.certificate}</td>}
+                {columns[12] && !columns[12].hidden && <td>{data.TimeOfLearning}</td>}
               </tr>
             ))}
           </tbody>
@@ -258,6 +288,18 @@ const Table = () => {
         )}
         
       </div>
+      <Modal
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        <ModalAdd
+          record={edittingRecord}
+          isAdding={isAdding}
+          closeModal={() => setIsModalVisible(false)}
+        />
+      </Modal>
+      
     </>
   );
 };
