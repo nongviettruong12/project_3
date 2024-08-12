@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./header.css";
 import {
   MailOutlined,
@@ -7,7 +7,31 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import * as XLSX from "xlsx";
-const HeaderNav = ({dataTable}) => {
+import {message, Checkbox,Modal } from "antd"
+const HeaderNav = ({dataTable, columns, setColumns, onDeleteSelectdRows }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const headers = columns.filter(col => !col.hiden).map(col => col.title)
+  const exportData = dataTable.map((data, index) => {
+    const rowData = {
+      STT: index + 1
+    }
+    columns.forEach(col => {
+      if (!col.hiden) {
+        rowData[col.title] = data[col.dataIndex]
+      }
+    })
+    return rowData
+  })
+  const handleSettingClick = () =>{
+    setIsModalVisible(true)
+  }
+  const handleChangeColumns = (checkedValues) =>{
+    const updatedColumns = columns.map(col=>({
+      ...col,
+      hidden: !checkedValues.includes(col.title)
+    }))
+    setColumns(updatedColumns)
+  }
   const handleExport = () => {
     if (dataTable.length === 0) {
       message.warning("Không có dữ liệu để xuất");
@@ -62,14 +86,25 @@ const HeaderNav = ({dataTable}) => {
           <button className="button-header button-primary spacing"onClick={handleExport}>
             <UploadOutlined />
           </button>
-          <button className="button-header button-gray spacing">
+          <button className="button-header button-gray spacing"onClick={onDeleteSelectdRows}>
             <MailOutlined />
           </button>
-          <button className="button-header button-primary spacing">
+          <button className="button-header button-primary spacing"onClick={handleSettingClick}>
             <SettingOutlined />
           </button>
         </div>
       </div>
+      <Modal title='tùy chọn cột'
+            open={isModalVisible}
+            onCancel={() => setIsModalVisible(false)}
+            onOk={() => setIsModalVisible(true)}
+      >
+      <Checkbox.Group
+        options={columns.map(col => col.title)}
+        defaultValue={columns.filter(col=> !col.hidden).map(col=>col.title)}
+        onChange={handleChangeColumns}
+        />
+      </Modal>
     </>
   );
 };

@@ -1,18 +1,36 @@
 import React from "react";
 import "./table.css";
 import { DingdingOutlined, SettingOutlined } from "@ant-design/icons";
-import { Tag, Select, Form, Button, Modal,message, Input } from "antd";
+import { Tag, Select, Form, Button, Modal, message, Input } from "antd";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import HeaderNav from "../header/header";
 const Table = () => {
-  const dataSearch = [
-    {value: 'intern','label': 'tập sự'},
-    {value: 'official','label': 'chính thức'}
-  ]
   const [dataTable, setDataTable] = useState([]);
-  const navigate = useNavigate();
+  const [columns, setColumns] = useState([
+    {title: '',dataIndex: 'checkbox',hidden: false},
+    { title: "STT", dataIndex: "STT", hidden: false },
+    {title: '', dataIndex:'logo', hidden: false},
+    { title: "Trang thái", dataIndex: "status", hidden: false },
+    { title: "Họ và tên", dataIndex: "fullName", hidden: false },
+    { title: "Ngày sinh", dataIndex: "birthDay", hidden: false },
+    { title: "Ngày tập sự", dataIndex: "probationDay", hidden: false },
+    { title: "Năm Tập sự", dataIndex: "probationYear", hidden: false },
+    { title: "Số CCCD", dataIndex: "identifyNumber", hidden: false },
+    { title: "Ngày cấp CCCD", dataIndex: "identifyDay", hidden: false },
+    {
+      title: "Tổ chức hành nghề (TC)",
+      dataIndex: "organization",
+      hidden: false,
+    },
+    { title: "Chứng chỉ", dataIndex: "certificate", hidden: false },
+    { title: "Thời gian học", dataIndex: "TimeOfLearning", hidden: false },
+  ]);
+  const dataSearch = [
+    { value: "intern", label: "tập sự" },
+    { value: "official", label: "chính thức" },
+  ];
+
   const handleDelete = (id) => {
     Modal.confirm({
       title: `Bạn có chắc muốn xoá?`,
@@ -22,7 +40,7 @@ const Table = () => {
       },
     });
   };
-  
+
   const handleExport = () => {
     if (dataTable.length === 0) {
       message.warning("Không có dữ liệu để xuất");
@@ -46,49 +64,43 @@ const Table = () => {
   }, []);
   return (
     <>
-    <HeaderNav dataTable={dataTable}/>
+      <HeaderNav
+        dataTable={dataTable}
+        columns={columns}
+        setColumns={setColumns}
+      />
       <div className="table-container">
         <table className="config-table">
           <thead>
             <tr className="text-wrap">
-              <th>
-                <input type="checkbox" />
-              </th>
-              <th>STT</th>
-              <th>
-                <DingdingOutlined />
-              </th>
-              <th>Trang thái</th>
-              <th>Họ và tên</th>
-              <th>Ngày sinh</th>
-              <th>Ngày tập sự</th>
-              <th>Năm Tập sự</th>
-              <th>Số CCCD</th>
-              <th>Ngày cấp CCCD</th>
-              <th>Tổ chức hành nghề (TC)</th>
-              <th>Chứng chỉ</th>
-              <th>Thời gian học</th>
+              {columns.map((col, index) =>
+                !col.hidden ? <th key={index}>{col.title}</th> : null
+              )}
+              
             </tr>
             <tr className="filters">
-           
               <th colSpan={3}>
-                <Button className="spacing-button" type="primary">Làm mới</Button>
+                <Button className="spacing-button" type="primary">
+                  Làm mới
+                </Button>
               </th>
               <th>
+                <Form>
                 <Form.Item name="status">
-                  <Select placeholder='nhập giá trị'>
+                  <Select placeholder="nhập giá trị">
                     {dataSearch.map((data, index) => {
-                      return (
-                        <option key={index}>{data.label}</option>
-                      );
+                      return <option key={index}>{data.label}</option>;
                     })}
                   </Select>
                 </Form.Item>
+                </Form>
               </th>
               <th>
+                <Form>
                 <Form.Item>
-                  <Input placeholder="abc"/>
+                  <Input placeholder="abc" />
                 </Form.Item>
+                </Form>
               </th>
               <th>
                 <input type="date" placeholder="Nhập giá trị" />
@@ -121,30 +133,25 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            {dataTable.map((data, index) => {
-              return (
-                <tr>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                  <td>{index + 1}</td>
-                  <td>
-                    <button className="status-btn"onClick={()=>{handleDelete(data.id)}}>
-                      <SettingOutlined />
-
-                    </button>
-                  </td>
+            {dataTable.map((data, index) => (
+              <tr key={data.id}>
+                {!columns[0].hidden && <td>{data.checkbox}</td>}
+                {!columns[1].hidden && <td>{index + 1}</td>}
+                {!columns[2].hidden && <td>{data.logo}</td>}
+                {!columns[3].hidden && (
                   <td>
                     <Tag color={data.status === "intern" ? "gold" : "green"}>
                       {data.status === "intern" ? "tập sự" : "chính thức"}
                     </Tag>
                   </td>
-                  <td>{data.fullName}</td>
-                  <td>{data.birthDay}</td>
-                  <td>{data.probationDay}</td>
-                  <td>{data.probationYear}</td>
-                  <td>{data.identifyNumber}</td>
-                  <td>{data.identifyDay}</td>
+                )}
+                {!columns[4].hidden && <td>{data.fullName}</td>}
+                {!columns[5].hidden && <td>{data.birthDay}</td>}
+                {!columns[6].hidden && <td>{data.probationDay}</td>}
+                {!columns[7].hidden && <td>{data.probationYear}</td>}
+                {!columns[8].hidden && <td>{data.identifyNumber}</td>}
+                {!columns[9].hidden && <td>{data.identifyDay}</td>}
+                {!columns[10].hidden && (
                   <td>
                     <Tag
                       color={data.organization === "black" ? "red" : "green"}
@@ -154,17 +161,16 @@ const Table = () => {
                         : "xã hội đỏ"}
                     </Tag>
                   </td>
-                  <td>{data.certificate}</td>
-                  <td>{data.TimeOfLearning}</td>
-                </tr>
-              );
-            })}
+                )}
+                {!columns[11].hidden && <td>{data.certificate}</td>}
+                {!columns[12].hidden && <td>{data.TimeOfLearning}</td>}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
-      
     </>
   );
 };
 
-export default Table
+export default Table;
