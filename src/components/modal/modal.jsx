@@ -4,7 +4,7 @@ import {
     ProFormSelect,
     ProFormText,
   } from "@ant-design/pro-components";
-  import { Form, message } from "antd";
+  import { Form, message, Modal } from "antd";
   import { useNavigate, useParams } from 'react-router-dom'
   import { useState, useEffect } from "react"
   
@@ -48,6 +48,7 @@ import {
           window.location.reload();
           navigate("/");
         }, 2000);
+        closeModal();
       } catch (error) {
         console.error("Error submitting form:", error);
         message.error("Error submitting form");
@@ -55,6 +56,13 @@ import {
     };
     return (
       <>
+      <Modal
+      title={isAdding ? "Thêm mới" : "Chỉnh sửa"}
+      open={isAdding}
+      onCancel={closeModal}
+      footer={null}
+      destroyOnClose
+    >
       <ProForm
         form={form}
         onFinish={handleSubmit}
@@ -147,6 +155,7 @@ import {
             placeholder="vui lòng nhập thời gian học"
           />
       </ProForm>
+      </Modal>
       </>
     );
   };

@@ -8,9 +8,22 @@ import {
 } from "@ant-design/icons";
 import * as XLSX from "xlsx";
 import {message, Checkbox,Modal } from "antd"
+import ModalAdd from "../modal/modal";
+
+
 const HeaderNav = ({dataTable, columns, setColumns, onDeleteSelectdRows }) => {
+
+
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const headers = columns.filter(col => !col.hiden).map(col => col.title)
+
+  const handleAddNewClick = () =>{
+    setIsAdding(true)
+  }
+  const handleCloseModal = () =>{
+    setIsAdding(false)
+  }
   const exportData = dataTable.map((data, index) => {
     const rowData = {
       STT: index + 1
@@ -79,7 +92,7 @@ const HeaderNav = ({dataTable, columns, setColumns, onDeleteSelectdRows }) => {
       <div className="flex border-header">
         <span className="title-header">Danh sách tập sự(446)</span>
         <div>
-          <button className="button-header button-primary spacing">
+          <button className="button-header button-primary spacing"onClick={handleAddNewClick}>
             <PlusOutlined />
             Thêm mới
           </button>
@@ -94,6 +107,7 @@ const HeaderNav = ({dataTable, columns, setColumns, onDeleteSelectdRows }) => {
           </button>
         </div>
       </div>
+      <ModalAdd isAdding={isAdding} closeModal={handleCloseModal} />
       <Modal title="tùy chọn cột"
             open={isModalVisible}
             onCancel={() => setIsModalVisible(false)}

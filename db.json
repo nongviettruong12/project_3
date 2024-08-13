@@ -3,7 +3,7 @@
     {
       "fullName": "John Smith 12345",
       "birthDay": "08/07/2015",
-      "status": "official",
+      "status": "intern",
       "organization": "black",
       "probationDay": "2015-08-08",
       "probationYear": "2002",
@@ -64,6 +64,19 @@
       "identifyDay": "2024-08-06",
       "certificate": "1",
       "TimeOfLearning": "1 nam"
+    },
+    {
+      "id": "564c",
+      "fullName": "john weak",
+      "birthDay": "2024-08-13",
+      "status": "official",
+      "organization": "black",
+      "probationDay": "2024-08-13",
+      "probationYear": "2023",
+      "identifyNumber": "131232131312",
+      "identifyDay": "2024-08-13",
+      "certificate": "cbd",
+      "TimeOfLearning": "1 Y"
     }
   ]
 }

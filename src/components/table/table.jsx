@@ -49,7 +49,7 @@ const Table = () => {
     { title: "Thời gian học", dataIndex: "TimeOfLearning", hidden: false },
   ]);
   const handleEdit = (record) => {
-    setIsModalVisible(true); // Hiện modal
+    setIsModalVisible(true); 
   setEdittingRecord(record);
   }
   const closeModal = () => {
