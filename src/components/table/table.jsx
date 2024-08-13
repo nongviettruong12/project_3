@@ -10,22 +10,26 @@ import {
   message,
   Input,
   Checkbox,
-  Spin
+  Spin,
+  Pagination,
 } from "antd";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import HeaderNav from "../header/header";
 import ModalAdd from '../modal/modal'
 const Table = () => {
-  const [dataTable, setDataTable] = useState([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  
+  const [dataTable, setDataTable] = useState([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [selectAll, setSelectAll] = useState(false)
   const [loading,setLoading] = useState(false)
   const [isEditting, setIsEditting] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
   const [edittingRecord, setEdittingRecord] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedRecord, setSelectedRecord] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(5)
   const [columns, setColumns] = useState([
     {title:"STT",dataIndex: "select", hidden: false },
     { title: "Option", dataIndex: "id", hidden: false },
@@ -48,18 +52,22 @@ const Table = () => {
     { title: "Chứng chỉ", dataIndex: "certificate", hidden: false },
     { title: "Thời gian học", dataIndex: "TimeOfLearning", hidden: false },
   ]);
+
   const handleEdit = (record) => {
     setIsModalVisible(true); 
   setEdittingRecord(record);
   }
+  
   const closeModal = () => {
     setIsEditting(false)
     setEdittingRecord(null)
   }
+
   const dataSearch = [
     { value: "intern", label: "tập sự" },
     { value: "official", label: "chính thức" },
   ];
+
   const fetchData = async () => {
     setLoading(true)
     try {
@@ -75,24 +83,30 @@ const Table = () => {
       setLoading(false)
     }
   };
+  
   const reloadData = () => {
     fetchData()
     setSelectedRowKeys([])
     setSelectAll(false)
   }
+
   const showModal = (record) =>{
         setSelectedRecord(record)
         setIsModalVisible(true)
   }
+
   const handleOk = () =>{
     setIsModalVisible(false)
   }
+
   const handleCancel = () =>{
     setIsModalVisible(false)
   }
+
   useEffect(()=>{
     fetchData()
   },[])
+  
   const handleDeleteSelectdRows = (id) => {
     Modal.confirm({
       title: `Bạn có chắc muốn xoá các mục đã chọn?`,
@@ -156,6 +170,17 @@ const Table = () => {
       setSelectAll(false);
     }
   }, [selectedRowKeys, dataTable.length]);
+
+  const handlePageChange = (page,pageSize) => {
+    setCurrentPage(page)
+    setPageSize(pageSize)
+  }
+
+  const currentPageData = dataTable.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  )
+
   return (
     <>
       <HeaderNav
@@ -163,6 +188,7 @@ const Table = () => {
         columns={columns}
         setColumns={setColumns}
         onDeleteSelectdRows={handleDeleteSelectdRows}
+        
       />
       <div className="table-container">
         {loading?(
@@ -170,6 +196,7 @@ const Table = () => {
           <Spin size="large" />
         </div>
         ):(
+          <>
 <table className="config-table">
           <thead>
             <tr className="text-wrap">
@@ -242,7 +269,7 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            {dataTable.map((data, index) => (
+            {currentPageData.map((data, index) => (
               <tr key={data.id}>
                 <td>
                   <Checkbox
@@ -285,6 +312,17 @@ const Table = () => {
             ))}
           </tbody>
         </table>
+      <div className="pagination">
+        <div className="totalUser">Tổng số user: {dataTable.length}</div>
+      <Pagination
+        current={currentPage}
+        pageSize={pageSize}
+        onChange={handlePageChange}
+        total={dataTable.length}
+      />
+      
+    </div>
+    </>
         )}
         
       </div>

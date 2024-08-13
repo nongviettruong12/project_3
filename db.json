@@ -77,6 +77,19 @@
       "identifyDay": "2024-08-13",
       "certificate": "cbd",
       "TimeOfLearning": "1 Y"
+    },
+    {
+      "id": "6502",
+      "fullName": "aaba",
+      "birthDay": "2024-08-13",
+      "status": "intern",
+      "organization": "red",
+      "probationDay": "2024-08-13",
+      "probationYear": "2",
+      "identifyNumber": "2313131231",
+      "identifyDay": "2024-08-13",
+      "certificate": "abc",
+      "TimeOfLearning": "abc 2"
     }
   ]
 }

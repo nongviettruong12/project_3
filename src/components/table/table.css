@@ -54,3 +54,10 @@ th input[type="text"] {
     align-items: center;
     height: 100%;
   }
+.pagination{
+    margin-top: 16px;
+    float: right;
+}
+.totalUser{
+    margin: 5px;
+}
