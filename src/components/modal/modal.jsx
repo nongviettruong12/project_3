@@ -4,6 +4,7 @@ import {
     ProFormSelect,
     ProFormText,
   } from "@ant-design/pro-components";
+  import './modal.css'
   import { Form, message, Modal } from "antd";
   import { useNavigate, useParams } from 'react-router-dom'
   import { useState, useEffect } from "react"
@@ -16,7 +17,7 @@ import {
     const [values, setValues] = useState(null);
 
     useEffect(() => {
-      if (record && !isAdding) {
+      if (record) {
         setValues(record);
         console.log('rc:', record);
         
@@ -24,7 +25,7 @@ import {
       } else {
         form.resetFields();
       }
-    }, [record, isAdding, form]);
+    }, [record,form]);
     
     const handleSubmit = async (values) => {
       try {
@@ -59,7 +60,7 @@ import {
       <>
       <Modal
       title={isAdding ? "Thêm mới" : "Chỉnh sửa"}
-      open={isAdding}
+      open={isAdding || !!record}
       onCancel={closeModal}
       footer={null}
       destroyOnClose
@@ -68,8 +69,8 @@ import {
         form={form}
         onFinish={handleSubmit}
         initialValues={values}
-        modalProps={{destroyOnClose: true,}}
-        submittimeout={2000}
+        // modalProps={{destroyOnClose: true,}}
+        // submittimeout={2000}
       >
         <ProForm.Group>
           <ProFormText

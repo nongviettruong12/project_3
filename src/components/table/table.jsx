@@ -28,7 +28,6 @@ const Table = () => {
   const [edittingRecord, setEditingRecord] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
-  const [initialValues, setInitialValues] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
@@ -45,7 +44,7 @@ const Table = () => {
     { title: "Số CCCD", dataIndex: "identifyNumber", hidden: false },
     { title: "Ngày cấp CCCD", dataIndex: "identifyDay", hidden: false },
     {
-      title: "Tổ chức hành nghề (TC)",
+      title: "Tổ chức hành nghề",
       dataIndex: "organization",
       hidden: false,
     },
@@ -378,7 +377,7 @@ const Table = () => {
                     {columns[0] && !columns[0].hidden && <td>{index + 1}</td>}
                     {columns[1] && !columns[1].hidden && (
                       <td>
-                        <Button onClick={() => handleEdit(record)}>
+                        <Button onClick={() => handleEdit(data)}>
                           <SettingOutlined />
                         </Button>
                       </td>
@@ -446,19 +445,16 @@ const Table = () => {
         )}
       </div>
       <Modal
-        title={isAdding ? "them moi" : "update"}
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
         destroyOnClose
-      >
-        {initialValues ? (
+      > 
           <ModalAdd
             record={edittingRecord}
             isAdding={isAdding}
             closeModal={() => setIsModalVisible(false)}
           />
-        ) : null}
       </Modal>
     </>
   );

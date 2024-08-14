@@ -8,7 +8,7 @@ table {
     border-collapse: collapse;
 }
 th, td {
-    padding: 8px ;
+    padding: 7px ;
     border: 1px solid gray;
     border-collapse: collapse;
     white-space: nowrap;
