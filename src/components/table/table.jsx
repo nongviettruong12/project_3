@@ -295,27 +295,42 @@ const Table = () => {
                     </Form>
                   </th>
                   <th>
-                    <input type="date" placeholder="Nhập giá trị" />
+                    <input type="date" placeholder="Nhập giá trị" 
+                    onKeyDown={(e) => handleSearch(e, "birthDay")}
+                    />
+                    
                   </th>
                   <th>
                     <input
                       type="date"
                       placeholder="Chọn giá trị"
-                      onKeyDown={(e) => handleSearch(e, "probationYear")}
+                      onKeyDown={(e) => handleSearch(e, "probationDay")}
                     />
                   </th>
                   <th>
-                    <input
-                      type="text"
-                      placeholder="Nhập giá trị"
-                      onKeyDown={(e) => handleSearch(e, "probationYear")}
+                  <Form>
+                      <Form.Item>
+                        <Input
+                          placeholder="abc"
+                          onKeyDown={(e) => handleSearch(e, "probationYear")}
+                        />
+                      </Form.Item>
+                    </Form>
+                  </th>
+                  <th>
+                  <Form>
+                      <Form.Item>
+                        <Input
+                          placeholder="abc"
+                          onKeyDown={(e) => handleSearch(e, "identifyNumber")}
+                        />
+                      </Form.Item>
+                    </Form>
+                  </th>
+                  <th>
+                    <input type="date" placeholder="Nhập giá trị" 
+                    onKeyDown={(e) => handleSearch(e, "identifyDay")}
                     />
-                  </th>
-                  <th>
-                    <input type="text" placeholder="Nhập giá trị" />
-                  </th>
-                  <th>
-                    <input type="text" placeholder="Nhập giá trị" />
                   </th>
                   <th>
                     <Form>
@@ -340,7 +355,14 @@ const Table = () => {
                   </th>
                   <th></th>
                   <th>
-                    <input type="text" placeholder="Chọn giá trị" />
+                  <Form>
+                      <Form.Item>
+                        <Input
+                          placeholder="abc"
+                          onKeyDown={(e) => handleSearch(e, "timeOfLearning")}
+                        />
+                      </Form.Item>
+                    </Form>
                   </th>
                 </tr>
               </thead>
