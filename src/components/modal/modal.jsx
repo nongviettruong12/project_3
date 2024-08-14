@@ -7,7 +7,6 @@ import {
   import { Form, message, Modal } from "antd";
   import { useNavigate, useParams } from 'react-router-dom'
   import { useState, useEffect } from "react"
-  
   const ModalAdd = ({record, isAdding, closeModal}) => {
     const waitTime = (time = 100) => {
     };
@@ -15,22 +14,24 @@ import {
     const { id } = useParams();
     const [form] = Form.useForm();
     const [values, setValues] = useState(null);
+
     useEffect(() => {
       if (record && !isAdding) {
         setValues(record);
+        console.log('rc:', record);
+        
         form.setFieldsValue(record);
       } else {
         form.resetFields();
       }
     }, [record, isAdding, form]);
+    
     const handleSubmit = async (values) => {
       try {
         const url = isAdding
           ? "http://localhost:3000/user"
           : `http://localhost:3000/user/${record?.id}`;
         const method = isAdding ? "POST" : "PUT";
-  
-        await waitTime(2000);
         const response = await fetch(url, {
           method,
           headers: {
@@ -67,11 +68,8 @@ import {
         form={form}
         onFinish={handleSubmit}
         initialValues={values}
-        modalProps={{
-          destroyOnClose: true,
-          onCancel: closeModal,
-        }}
-        submitTimeout={2000}
+        modalProps={{destroyOnClose: true,}}
+        submittimeout={2000}
       >
         <ProForm.Group>
           <ProFormText
