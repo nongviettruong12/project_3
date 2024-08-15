@@ -12,6 +12,7 @@ import {
   Checkbox,
   Spin,
   Pagination,
+  DatePicker,
 } from "antd";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
@@ -266,6 +267,7 @@ const Table = () => {
                     <Form>
                       <Form.Item name="status">
                         <Select
+                        allowClear={true}
                           placeholder="nhập giá trị"
                           onChange={(value) => {
                             setSelectedStatus(value);
@@ -287,6 +289,7 @@ const Table = () => {
                     <Form>
                       <Form.Item>
                         <Input
+                        allowClear={true}
                           placeholder="abc"
                           onKeyDown={(e) => handleSearch(e, "fullName")}
                         />
@@ -294,22 +297,32 @@ const Table = () => {
                     </Form>
                   </th>
                   <th>
-                    <input type="date" placeholder="Nhập giá trị" 
-                    onKeyDown={(e) => handleSearch(e, "birthDay")}
-                    />
-                    
+                  <Form>
+                      <Form.Item>
+                        <DatePicker
+                          allowClear={true}
+                          placeholder="please input"
+                          onKeyDown={(e) => handleSearch(e, "birthDay")}
+                        />
+                      </Form.Item>
+                    </Form>
                   </th>
                   <th>
-                    <input
-                      type="date"
-                      placeholder="Chọn giá trị"
-                      onKeyDown={(e) => handleSearch(e, "probationDay")}
-                    />
+                  <Form>
+                      <Form.Item>
+                        <DatePicker
+                          allowClear={true}
+                          placeholder="please input"
+                          onKeyDown={(e) => handleSearch(e, "probationDay")}
+                        />
+                      </Form.Item>
+                    </Form>
                   </th>
                   <th>
                   <Form>
                       <Form.Item>
                         <Input
+                          allowClear={true}
                           placeholder="abc"
                           onKeyDown={(e) => handleSearch(e, "probationYear")}
                         />
@@ -320,6 +333,7 @@ const Table = () => {
                   <Form>
                       <Form.Item>
                         <Input
+                          allowClear={true}
                           placeholder="abc"
                           onKeyDown={(e) => handleSearch(e, "identifyNumber")}
                         />
@@ -327,15 +341,22 @@ const Table = () => {
                     </Form>
                   </th>
                   <th>
-                    <input type="date" placeholder="Nhập giá trị" 
-                    onKeyDown={(e) => handleSearch(e, "identifyDay")}
-                    />
+                  <Form>
+                      <Form.Item>
+                        <DatePicker
+                          allowClear={true}
+                          placeholder="abc"
+                          onKeyDown={(e) => handleSearch(e, "identifyDay")}
+                        />
+                      </Form.Item>
+                    </Form>
                   </th>
                   <th>
                     <Form>
                       <Form.Item name="organization">
                         <Select
                           placeholder="nhập giá trị"
+                          allowClear={true}
                           onChange={(value) => {
                             setSelectedOrganization(value);
                             handleSearch({ key: "Enter",target: { value } }, "organization");
@@ -358,6 +379,7 @@ const Table = () => {
                       <Form.Item>
                         <Input
                           placeholder="abc"
+                          allowClear={true}
                           onKeyDown={(e) => handleSearch(e, "timeOfLearning")}
                         />
                       </Form.Item>
